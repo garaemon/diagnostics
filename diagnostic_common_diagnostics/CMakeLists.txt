@@ -12,8 +12,10 @@ catkin_python_setup()
 
 
 include_directories(include ${catkin_INCLUDE_DIRS})
-add_executable(libsensors_monitor src/libsensors_monitor.cpp src/libsensors_chip.cpp)
-target_link_libraries(libsensors_monitor sensors ${catkin_LIBRARIES})
+if (NOT APPLE)
+  add_executable(libsensors_monitor src/libsensors_monitor.cpp src/libsensors_chip.cpp)
+  target_link_libraries(libsensors_monitor sensors ${catkin_LIBRARIES})
+endif (NOT APPLE)
 
 
 install(PROGRAMS
@@ -22,9 +24,10 @@ install(PROGRAMS
   src/diagnostic_common_diagnostics/sensors_monitor.py
   src/diagnostic_common_diagnostics/tf_monitor.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
-
-install(TARGETS libsensors_monitor
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
+if (NOT APPLE)
+  install(TARGETS libsensors_monitor
+    ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+    LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+    RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+    )
+endif (NOT APPLE)
